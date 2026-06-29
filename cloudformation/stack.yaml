@@ -1,0 +1,124 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Projeto Serverless para processamento de notas fiscais
+  utilizando S3, Lambda e DynamoDB.
+
+Resources:
+
+  BucketNotasFiscais:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: notas-fiscais-upload
+
+  TabelaNotasFiscais:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: NotasFiscais
+      BillingMode: PAY_PER_REQUEST
+
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lambda-notas-role
+
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+
+        Statement:
+          - Effect: Allow
+
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+
+            Action:
+              - sts:AssumeRole
+
+      Policies:
+
+        - PolicyName: DynamoDBPolicy
+
+          PolicyDocument:
+            Version: '2012-10-17'
+
+            Statement:
+
+              - Effect: Allow
+
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:Scan
+
+                Resource: "*"
+
+        - PolicyName: S3Policy
+
+          PolicyDocument:
+            Version: '2012-10-17'
+
+            Statement:
+
+              - Effect: Allow
+
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+
+                Resource: "*"
+
+  ProcessarNotasLambda:
+    Type: AWS::Lambda::Function
+
+    Properties:
+
+      FunctionName: ProcessarNotasFiscais
+
+      Runtime: python3.9
+
+      Handler: processar_notas.lambda_handler
+
+      Role: !GetAtt LambdaExecutionRole.Arn
+
+      Timeout: 30
+
+      Code:
+        ZipFile: |
+          def lambda_handler(event, context):
+              print("Placeholder")
+              return {
+                  "statusCode": 200
+              }
+
+  PermissaoS3Lambda:
+    Type: AWS::Lambda::Permission
+
+    Properties:
+      FunctionName: !Ref ProcessarNotasLambda
+
+      Action: lambda:InvokeFunction
+
+      Principal: s3.amazonaws.com
+
+      SourceArn: !GetAtt BucketNotasFiscais.Arn
+
+Outputs:
+
+  BucketName:
+    Value: !Ref BucketNotasFiscais
+
+  DynamoTable:
+    Value: !Ref TabelaNotasFiscais
+
+  LambdaName:
+    Value: !Ref ProcessarNotasLambda

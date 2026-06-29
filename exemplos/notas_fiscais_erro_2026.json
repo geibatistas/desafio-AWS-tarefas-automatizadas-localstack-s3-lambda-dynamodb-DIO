@@ -1,0 +1,50 @@
+
+  {
+    "id": "NF-4",
+    "cliente": "Pedro Lima",
+    "valor": 1169.91,
+    "data_emissao": "2026-06-13"
+  },
+  {
+    "id": "NF-5",
+    "cliente": "Ana Costa",
+    "valor": 4578.75,
+    "data_emissao": "2026-06-09"
+  },
+  {
+    "id": "NF-6",
+    "cliente": "João Silva",
+    "valor": 3281.37,
+    "data_emissao": "2026-06-09"
+  },
+  {
+    "id": "NF-7",
+    "cliente": "João Silva",
+    "valor": 2716.92,
+    "data_emissao": "2026-06-21"
+  },
+  {
+    "id": "NF-8",
+    "cliente": "João Silva",
+    "valor": 2248.05,
+    "data_emissao": "2026-06-08"
+  },
+  {
+    "id": "NF-9",
+    "cliente": "Carlos Santos",
+    "valor": 2569.37,
+    "data_emissao": "2026-05-29"
+  },
+  {
+    "id": "NF-10",
+    "cliente": "Maria Oliveira",
+    "valor": 3349.53,
+    "data_emissao": "2026-06-21"
+  },
+  {
+  "id": "NF-11",
+  "cliente": "Teste Trigger",
+  "valor": 9999.99,
+  "data_emissao": "2026-06-29"
+}
+
